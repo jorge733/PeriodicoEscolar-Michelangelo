@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Periódico Escolar | Colegio Waldorf Michelangelo</title>
+  <meta name="theme-color" content="#d8c59b">
+
+  <style>
+    :root {
+      --paper:#fffdf8;
+      --gold:#c9b07a;
+      --gold-dark:#9e8555;
+      --ink:#2b2925;
+      --muted:#746d62;
+      --line:#ded5c6;
+      --spotify:#1ed760;
+    }
+
+    * { box-sizing:border-box; }
+
+    html { scroll-behavior:smooth; }
+
+    body {
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 20% 15%,rgba(255,255,255,.75),transparent 28%),
+        linear-gradient(180deg,#eee7da 0%,#f7f3eb 100%);
+    }
+
+    a { color:inherit; text-decoration:none; }
+    button { font-family:inherit; }
+
+    .site-header {
+      position:sticky;
+      top:0;
+      z-index:100;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      padding:12px 5vw;
+      background:rgba(255,253,248,.94);
+      border-bottom:1px solid rgba(0,0,0,.09);
+      backdrop-filter:blur(12px);
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+    }
+
+    .brand img {
+      width:64px;
+      height:64px;
+      object-fit:contain;
+      border-radius:8px;
+      flex:0 0 auto;
+    }
+
+    .brand-text strong {
+      display:block;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:20px;
+    }
+
+    .brand-text span {
+      display:block;
+      margin-top:4px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    nav {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    nav a,
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      border:1px solid rgba(0,0,0,.14);
+      background:#fffdf9;
+      color:var(--ink);
+      border-radius:999px;
+      padding:10px 15px;
+      font-weight:700;
+      font-size:13px;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    nav a:hover,
+    .btn:hover {
+      background:white;
+      transform:translateY(-1px);
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+    }
+
+    .btn-primary {
+      background:var(--ink);
+      color:white;
+      border-color:var(--ink);
+    }
+
+    .btn-primary:hover { background:#000; }
+
+    .spotify-nav {
+      background:#191414;
+      color:white;
+      border-color:#191414;
+    }
+
+    .spotify-dot {
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:var(--spotify);
+      color:#111;
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .hero {
+      max-width:1250px;
+      margin:0 auto;
+      padding:70px 6vw 50px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:55px;
+      align-items:center;
+    }
+
+    .eyebrow {
+      color:var(--gold-dark);
+      text-transform:uppercase;
+      letter-spacing:.2em;
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .hero h1 {
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:clamp(48px,7vw,88px);
+      line-height:.91;
+      margin:16px 0 18px;
+      letter-spacing:-.045em;
+    }
+
+    .hero p {
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:20px;
+      line-height:1.55;
+      color:#514c44;
+      max-width:650px;
+    }
+
+    .hero-actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:28px;
+    }
+
+    .hero-cover {
+      display:grid;
+      place-items:center;
+    }
+
+    .cover-card {
+      position:relative;
+      width:min(390px,85vw);
+      aspect-ratio:595/842;
+      background:white;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.12);
+      box-shadow:0 28px 45px rgba(57,45,30,.28);
+      transform:rotate(2deg);
+      transition:.3s ease;
+    }
+
+    .cover-card:hover {
+      transform:rotate(0deg) scale(1.015);
+      box-shadow:0 34px 55px rgba(57,45,30,.34);
+    }
+
+    .cover-card img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .cover-badge {
+      position:absolute;
+      top:18px;
+      left:0;
+      z-index:3;
+      background:var(--gold);
+      color:white;
+      padding:9px 14px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+    }
+
+    .section {
+      max-width:1250px;
+      margin:0 auto;
+      padding:72px 6vw;
+    }
+
+    .section-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:20px;
+      border-bottom:1px solid var(--line);
+      padding-bottom:15px;
+      margin-bottom:30px;
+    }
+
+    .section-header h2 {
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:40px;
+      margin:0;
+    }
+
+    .section-header p {
+      margin:6px 0 0;
+      color:var(--muted);
+    }
+
+    .latest-card {
+      background:rgba(255,253,248,.92);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:28px;
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:32px;
+      align-items:center;
+      box-shadow:0 16px 30px rgba(73,58,37,.08);
+    }
+
+    .latest-thumb {
+      aspect-ratio:595/842;
+      overflow:hidden;
+      border:1px solid var(--line);
+      box-shadow:0 15px 25px rgba(0,0,0,.13);
+    }
+
+    .latest-thumb img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .latest-copy h3 {
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:34px;
+      margin:8px 0 10px;
+    }
+
+    .latest-copy .meta {
+      color:var(--gold-dark);
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+    }
+
+    .latest-copy p {
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:18px;
+      line-height:1.5;
+      color:#5e574e;
+    }
+
+    .latest-actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:20px;
+    }
+
+    .reader-shell {
+      border-radius:24px;
+      background:
+        radial-gradient(circle at 30% 10%,rgba(255,255,255,.35),transparent 25%),
+        linear-gradient(135deg,#c8bba8,#e8e0d4);
+      padding:24px 16px 18px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.5),
+        0 18px 34px rgba(62,49,34,.09);
+    }
+
+    .reader-top {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      max-width:1080px;
+      margin:0 auto 16px;
+    }
+
+    .reader-title strong {
+      display:block;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:21px;
+    }
+
+    .reader-title span {
+      display:block;
+      margin-top:3px;
+      font-size:12px;
+      color:#61584d;
+    }
+
+    .reader-stage {
+      min-height:710px;
+      display:grid;
+      place-items:center;
+      perspective:2200px;
+    }
+
+    #book {
+      width:500px;
+      height:707px;
+      filter:drop-shadow(0 24px 30px rgba(47,39,29,.32));
+    }
+
+    .page {
+      width:500px;
+      height:707px;
+      background:white;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.12);
+    }
+
+    .page img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      user-select:none;
+      -webkit-user-drag:none;
+    }
+
+    .reader-controls {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:15px;
+    }
+
+    .reader-status {
+      min-width:210px;
+      text-align:center;
+      font-size:13px;
+      color:#4e4942;
+    }
+
+    .progress {
+      width:170px;
+      height:5px;
+      background:rgba(0,0,0,.13);
+      border-radius:999px;
+      overflow:hidden;
+      margin:7px auto 0;
+    }
+
+    .progress span {
+      display:block;
+      width:16.66%;
+      height:100%;
+      background:var(--ink);
+      transition:width .25s ease;
+    }
+
+    .reader-help {
+      text-align:center;
+      color:#645d54;
+      font-size:12px;
+      margin-top:16px;
+    }
+
+    .podcast-card {
+      position:relative;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:28px;
+      align-items:center;
+      padding:38px;
+      border-radius:26px;
+      background:#191414;
+      color:white;
+      box-shadow:0 22px 42px rgba(0,0,0,.18);
+    }
+
+    .podcast-card::before {
+      content:"";
+      position:absolute;
+      width:340px;
+      height:340px;
+      border-radius:50%;
+      right:-120px;
+      top:-150px;
+      background:rgba(30,215,96,.16);
+    }
+
+    .podcast-card > * {
+      position:relative;
+      z-index:2;
+    }
+
+    .podcast-kicker {
+      color:var(--spotify);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.17em;
+      text-transform:uppercase;
+    }
+
+    .podcast-card h2 {
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:42px;
+      line-height:1;
+      margin:10px 0 12px;
+    }
+
+    .podcast-card p {
+      max-width:700px;
+      margin:0;
+      color:#ddd;
+      line-height:1.6;
+      font-size:16px;
+    }
+
+    .spotify-button {
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:13px 18px;
+      border-radius:999px;
+      background:var(--spotify);
+      color:#111;
+      font-size:14px;
+      font-weight:900;
+      white-space:nowrap;
+      transition:.2s ease;
+    }
+
+    .spotify-button:hover {
+      transform:scale(1.025);
+      filter:brightness(1.05);
+    }
+
+    .archive-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:24px;
+    }
+
+    .issue-card {
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 12px 22px rgba(68,54,36,.08);
+    }
+
+    .issue-cover {
+      aspect-ratio:595/842;
+      overflow:hidden;
+      border:1px solid var(--line);
+      margin-bottom:14px;
+    }
+
+    .issue-cover img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .issue-card h3 {
+      margin:0 0 6px;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:22px;
+    }
+
+    .issue-card p {
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .placeholder {
+      min-height:270px;
+      border:1px dashed #cbbfae;
+      background:rgba(255,255,255,.35);
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:25px;
+      color:#81786e;
+      border-radius:18px;
+    }
+
+    footer {
+      margin-top:50px;
+      border-top:1px solid var(--line);
+      background:#f0e9dd;
+      padding:34px 6vw;
+    }
+
+    .footer-inner {
+      max-width:1250px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .footer-brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .footer-brand img {
+      width:55px;
+      height:55px;
+      object-fit:contain;
+      border-radius:8px;
+    }
+
+    .footer-brand strong {
+      font-family:Georgia,"Times New Roman",serif;
+    }
+
+    .footer-note {
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    @media(max-width:900px) {
+      .hero { grid-template-columns:1fr; padding-top:45px; }
+      .latest-card { grid-template-columns:1fr; }
+      .latest-thumb { max-width:300px; }
+      .podcast-card { grid-template-columns:1fr; }
+      .reader-stage { min-height:auto; padding:12px 0; }
+
+      #book {
+        width:min(91vw,500px);
+        height:min(129vw,707px);
+      }
+
+      .page {
+        width:100%;
+        height:100%;
+      }
+    }
+
+    @media(max-width:680px) {
+      .site-header { padding:10px 4vw; }
+      .brand img { width:50px; height:50px; }
+      .brand-text strong { font-size:15px; }
+      .brand-text span { display:none; }
+      nav .optional { display:none; }
+      .spotify-nav .spotify-text { display:none; }
+      .hero, .section { padding-left:5vw; padding-right:5vw; }
+      .section-header h2 { font-size:32px; }
+      .podcast-card { padding:28px; }
+      .podcast-card h2 { font-size:34px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/logo.jpg" alt="Logo Colegio Waldorf Michelangelo">
+
+      <div class="brand-text">
+        <strong>Colegio Waldorf Michelangelo</strong>
+        <span>Periódico Escolar Digital</span>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#leer">Leer edición</a>
+      <a href="#archivo" class="optional">Archivo</a>
+
+      <a
+        href="https://open.spotify.com/show/6srhIklHXx5NZjMP0GlWFs?si=98a18fcd52f542eb"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="spotify-nav"
+      >
+        <span class="spotify-dot">▶</span>
+        <span class="spotify-text">Michelangelo Podcast</span>
+      </a>
+    </nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div>
+      <div class="eyebrow">Colegio Waldorf Michelangelo</div>
+
+      <h1>
+        Periódico<br>
+        Escolar
+      </h1>
+
+      <p>
+        Un espacio para registrar las historias, actividades, ideas y voces
+        de nuestra comunidad escolar, combinando el periódico físico con una
+        experiencia digital interactiva en formato revista.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#leer">Leer edición de prueba</a>
+        <a class="btn" href="#podcast">Escuchar podcast</a>
+      </div>
+    </div>
+
+    <div class="hero-cover">
+      <div class="cover-card">
+        <div class="cover-badge">Edición de prueba</div>
+        <img src="assets/edicion-prueba/pagina-01.png" alt="Portada edición de prueba">
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h2>Última edición</h2>
+        <p>Edición de prueba del periódico escolar digital.</p>
+      </div>
+    </div>
+
+    <div class="latest-card">
+      <div class="latest-thumb">
+        <img src="assets/edicion-prueba/pagina-01.png" alt="Portada edición de prueba">
+      </div>
+
+      <div class="latest-copy">
+        <div class="meta">Edición de prueba · 6 páginas</div>
+
+        <h3>Prueba del lector digital</h3>
+
+        <p>
+          Esta edición utiliza seis páginas de demostración para probar la
+          experiencia de lectura, el efecto de paso de página y la adaptación
+          del periódico a computador, tablet y teléfono.
+        </p>
+
+        <div class="latest-actions">
+          <a class="btn btn-primary" href="#leer">Abrir revista</a>
+
+          <a
+            class="btn"
+            href="assets/edicion-prueba/edicion-prueba.pdf"
+            target="_blank"
+          >
+            Ver PDF
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="leer">
+    <div class="section-header">
+      <div>
+        <h2>Leer la edición</h2>
+        <p>Pasa las páginas como si fuera una revista física.</p>
+      </div>
+    </div>
+
+    <div class="reader-shell">
+      <div class="reader-top">
+        <div class="reader-title">
+          <strong>Edición de prueba</strong>
+          <span>6 páginas · Revista digital</span>
+        </div>
+
+        <button class="btn" id="fullscreenBtn">Pantalla completa</button>
+      </div>
+
+      <div class="reader-stage">
+        <div id="book">
+
+          <div class="page" data-density="hard">
+            <img src="assets/edicion-prueba/pagina-01.png" alt="Página 1">
+          </div>
+
+          <div class="page">
+            <img src="assets/edicion-prueba/pagina-02.png" alt="Página 2">
+          </div>
+
+          <div class="page">
+            <img src="assets/edicion-prueba/pagina-03.png" alt="Página 3">
+          </div>
+
+          <div class="page">
+            <img src="assets/edicion-prueba/pagina-04.png" alt="Página 4">
+          </div>
+
+          <div class="page">
+            <img src="assets/edicion-prueba/pagina-05.png" alt="Página 5">
+          </div>
+
+          <div class="page" data-density="hard">
+            <img src="assets/edicion-prueba/pagina-06.png" alt="Página 6">
+          </div>
+
+        </div>
+      </div>
+
+      <div class="reader-controls">
+        <button class="btn" id="prevBtn">← Anterior</button>
+
+        <div class="reader-status">
+          <div id="pageLabel">Página 1 de 6</div>
+
+          <div class="progress">
+            <span id="bar"></span>
+          </div>
+        </div>
+
+        <button class="btn" id="nextBtn">Siguiente →</button>
+      </div>
+
+      <div class="reader-help">
+        Puedes usar los botones, las flechas ← → del teclado o arrastrar una esquina de la página.
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="podcast">
+    <div class="podcast-card">
+      <div>
+        <div class="podcast-kicker">Audio · Comunidad escolar</div>
+
+        <h2>Michelangelo Podcast</h2>
+
+        <p>
+          El periódico escolar digital también conecta con el podcast del
+          Colegio Waldorf Michelangelo. Escucha los episodios directamente en Spotify.
+        </p>
+      </div>
+
+      <a
+        class="spotify-button"
+        href="https://open.spotify.com/show/6srhIklHXx5NZjMP0GlWFs?si=98a18fcd52f542eb"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ▶ Escuchar en Spotify
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="archivo">
+    <div class="section-header">
+      <div>
+        <h2>Archivo de ediciones</h2>
+        <p>La futura hemeroteca digital del colegio.</p>
+      </div>
+    </div>
+
+    <div class="archive-grid">
+      <article class="issue-card">
+        <div class="issue-cover">
+          <img src="assets/edicion-prueba/pagina-01.png" alt="Portada edición de prueba">
+        </div>
+
+        <h3>Edición de prueba</h3>
+        <p>6 páginas · Edición demostrativa</p>
+      </article>
+
+      <div class="placeholder">
+        <div>
+          <strong>Próxima edición</strong>
+          <br><br>
+          Aquí aparecerá la primera edición oficial del periódico.
+        </div>
+      </div>
+
+      <div class="placeholder">
+        <div>
+          <strong>Archivo histórico</strong>
+          <br><br>
+          Cada nueva edición quedará disponible permanentemente.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logo.jpg" alt="Logo Colegio Waldorf Michelangelo">
+
+        <div>
+          <strong>Colegio Waldorf Michelangelo</strong>
+          <div class="footer-note">Periódico Escolar Digital</div>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        © 2026 Colegio Waldorf Michelangelo
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+
+  <script>
+    const book = document.getElementById("book");
+    const pages = book.querySelectorAll(".page");
+
+    const pageFlip = new St.PageFlip(book, {
+      width:500,
+      height:707,
+      size:"stretch",
+      minWidth:280,
+      maxWidth:1000,
+      minHeight:396,
+      maxHeight:1414,
+      showCover:true,
+      mobileScrollSupport:false,
+      usePortrait:true,
+      flippingTime:900,
+      drawShadow:true,
+      maxShadowOpacity:0.48,
+      autoSize:true
+    });
+
+    pageFlip.loadFromHTML(pages);
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const pageLabel = document.getElementById("pageLabel");
+    const bar = document.getElementById("bar");
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+    function updateReader(index = pageFlip.getCurrentPageIndex()) {
+      const total = pageFlip.getPageCount();
+      const current = Math.min(index + 1, total);
+
+      pageLabel.textContent = `Página ${current} de ${total}`;
+      bar.style.width = `${(current / total) * 100}%`;
+
+      prevBtn.disabled = index <= 0;
+      nextBtn.disabled = index >= total - 1;
+    }
+
+    prevBtn.addEventListener("click", () => {
+      pageFlip.flipPrev();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      pageFlip.flipNext();
+    });
+
+    pageFlip.on("flip", event => {
+      updateReader(event.data);
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "ArrowRight") pageFlip.flipNext();
+      if (event.key === "ArrowLeft") pageFlip.flipPrev();
+    });
+
+    fullscreenBtn.addEventListener("click", async () => {
+      try {
+        if (!document.fullscreenElement) {
+          await document.documentElement.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        console.log("Pantalla completa no disponible.");
+      }
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+      fullscreenBtn.textContent =
+        document.fullscreenElement
+          ? "Salir de pantalla completa"
+          : "Pantalla completa";
+    });
+
+    updateReader(0);
+  </script>
+
+</body>
+</html>
