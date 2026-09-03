@@ -768,7 +768,7 @@ footer {
         <div class="page"><img src="assets/edicion-prueba/pagina-08.jpg" alt="Página 8 de la edición de prueba" loading="lazy"></div>
         <div class="page"><img src="assets/edicion-prueba/pagina-09.jpg" alt="Página 9 de la edición de prueba" loading="lazy"></div>
         <div class="page"><img src="assets/edicion-prueba/pagina-10.jpg" alt="Página 10 de la edición de prueba" loading="lazy"></div>
-        <div class="page" data-density="hard"><img src="assets/edicion-prueba/pagina-11.jpg" alt="Página 11 de la edición de prueba" loading="lazy"></div>
+        <div class="page"><img src="assets/edicion-prueba/pagina-11.jpg" alt="Página 11 de la edición de prueba" loading="eager"></div>
       </div>
     </div>
 
@@ -924,25 +924,56 @@ function updateReader(index = pageFlip.getCurrentPageIndex()) {
 
 prevBtn.addEventListener("click", () => {
   playPageTurnSound();
-  pageFlip.flipPrev();
+  goToPreviousPage();
 });
 
 nextBtn.addEventListener("click", () => {
   playPageTurnSound();
-  pageFlip.flipNext();
+  goToNextPage();
 });
+
+function goToNextPage() {
+  const current = pageFlip.getCurrentPageIndex();
+  const last = pageFlip.getPageCount() - 1;
+
+  if (current >= last) return;
+
+  // La contraportada debe poder mostrarse sola en celulares. PageFlip puede
+  // tratar la última hoja como parte del pliego anterior si la revista es impar.
+  if (current === last - 1) {
+    pageFlip.turnToPage(last);
+    updateReader(last);
+    return;
+  }
+
+  pageFlip.flipNext();
+}
+
+function goToPreviousPage() {
+  const current = pageFlip.getCurrentPageIndex();
+
+  if (current <= 0) return;
+
+  if (current === pageFlip.getPageCount() - 1) {
+    pageFlip.turnToPage(current - 1);
+    updateReader(current - 1);
+    return;
+  }
+
+  pageFlip.flipPrev();
+}
 
 pageFlip.on("flip", event => updateReader(event.data));
 
 document.addEventListener("keydown", event => {
   if (event.key === "ArrowRight") {
     playPageTurnSound();
-    pageFlip.flipNext();
+    goToNextPage();
   }
 
   if (event.key === "ArrowLeft") {
     playPageTurnSound();
-    pageFlip.flipPrev();
+    goToPreviousPage();
   }
 });
 
