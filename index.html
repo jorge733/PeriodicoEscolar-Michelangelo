@@ -438,6 +438,50 @@ nav a:hover,.btn:hover {
   margin-top:16px;
 }
 
+.participate-card {
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:30px;
+  padding:38px;
+  border:1px solid #bda979;
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(255,255,255,.72),transparent 30%),
+    linear-gradient(135deg,#f5ecd8,#dfc990);
+  box-shadow:0 18px 34px rgba(73,58,37,.12);
+}
+
+.participate-card h2 {
+  margin:8px 0 12px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:40px;
+  line-height:1.08;
+}
+
+.participate-card p {
+  max-width:760px;
+  margin:0;
+  color:#51493d;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:18px;
+  line-height:1.55;
+}
+
+.participate-kicker {
+  color:#7e683b;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.participate-button {
+  min-height:48px;
+  padding-inline:22px;
+  white-space:nowrap;
+}
+
 .podcast-card {
   position:relative;
   overflow:hidden;
@@ -587,6 +631,7 @@ footer {
   .hero { grid-template-columns:1fr; padding-top:45px; }
   .latest-card { grid-template-columns:1fr; }
   .latest-thumb { max-width:300px; }
+  .participate-card { grid-template-columns:1fr; }
   .podcast-card { grid-template-columns:1fr; }
   .reader-stage { min-height:auto; padding:12px 0; }
 
@@ -633,6 +678,10 @@ footer {
   .reader-controls .btn { width:100%; min-width:0; }
   .reader-status { grid-column:1 / -1; grid-row:1; min-width:0; }
   .reader-help { padding:0 16px; line-height:1.45; }
+  .participate-card { padding:26px 22px; text-align:center; }
+  .participate-card h2 { font-size:32px; }
+  .participate-card p { font-size:17px; }
+  .participate-button { width:100%; }
   .podcast-card { text-align:center; }
   .spotify-button { justify-content:center; }
   .footer-inner { text-align:center; justify-content:center; }
@@ -677,6 +726,7 @@ footer {
   <nav>
     <a href="#inicio">Inicio</a>
     <a href="#leer">Leer edición</a>
+    <a href="#participar">Participar</a>
     <a href="#archivo" class="optional">Archivo</a>
     <a href="https://michelangelo.cl/" target="_blank" rel="noopener noreferrer" class="optional">Sitio del colegio ↗</a>
 
@@ -815,6 +865,26 @@ footer {
     <div class="reader-help">
       Puedes usar los botones, las flechas ← → del teclado o arrastrar una esquina de la página.
     </div>
+  </div>
+</section>
+
+<section class="section" id="participar">
+  <div class="participate-card">
+    <div>
+      <div class="participate-kicker">Tu voz también cuenta</div>
+      <h2>Propón una sección o súmate al periódico</h2>
+      <p>
+        Si tienes una idea para una nueva sección, quieres colaborar en alguna
+        de las existentes o deseas ser parte del equipo, escríbenos y cuéntanos
+        cómo te gustaría participar.
+      </p>
+    </div>
+
+    <a
+      class="btn btn-primary participate-button"
+      href="mailto:michelangelopodcast@gmail.com?subject=Quiero%20participar%20en%20el%20peri%C3%B3dico%20escolar&amp;body=Hola%2C%0A%0AMe%20gustar%C3%ADa%20participar%20en%20el%20peri%C3%B3dico%20escolar.%0A%0AMi%20propuesta%20o%20secci%C3%B3n%20de%20inter%C3%A9s%20es%3A%0A%0AMi%20nombre%20y%20curso%20son%3A%0A%0AGracias."
+      aria-label="Enviar una propuesta para participar en el periódico escolar por correo"
+    >Enviar propuesta por correo</a>
   </div>
 </section>
 
