@@ -370,6 +370,32 @@ nav a:hover,.btn:hover {
   -webkit-user-drag:none;
 }
 
+.page--closing {
+  display:grid;
+  place-items:center;
+  padding:44px;
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 38%,rgba(255,255,255,.75),transparent 34%),
+    linear-gradient(145deg,#efe6d5,#d8c59b);
+}
+
+.page--closing div {
+  font-family:Georgia,"Times New Roman",serif;
+  color:#4d4437;
+}
+
+.page--closing strong {
+  display:block;
+  margin-bottom:10px;
+  font-size:30px;
+}
+
+.page--closing span {
+  font-size:15px;
+  line-height:1.5;
+}
+
 .reader-controls {
   display:flex;
   justify-content:center;
@@ -768,7 +794,10 @@ footer {
         <div class="page"><img src="assets/edicion-prueba/pagina-08.jpg" alt="Página 8 de la edición de prueba" loading="lazy"></div>
         <div class="page"><img src="assets/edicion-prueba/pagina-09.jpg" alt="Página 9 de la edición de prueba" loading="lazy"></div>
         <div class="page"><img src="assets/edicion-prueba/pagina-10.jpg" alt="Página 10 de la edición de prueba" loading="lazy"></div>
-        <div class="page"><img src="assets/edicion-prueba/pagina-11.jpg" alt="Página 11 de la edición de prueba" loading="eager"></div>
+        <div class="page" data-density="hard"><img src="assets/edicion-prueba/pagina-11.jpg" alt="Página 11 de la edición de prueba" loading="eager"></div>
+        <div class="page page--closing" data-density="hard" aria-label="Interior de la contratapa">
+          <div><strong>Fin de la edición</strong><span>Gracias por leer el Periódico Escolar Michelangelo.</span></div>
+        </div>
       </div>
     </div>
 
@@ -912,11 +941,14 @@ function playPageTurnSound() {
 }
 
 function updateReader(index = pageFlip.getCurrentPageIndex()) {
+  const editorialPages = 11;
   const total = pageFlip.getPageCount();
-  const current = Math.min(index + 1, total);
+  const current = Math.min(index + 1, editorialPages);
 
-  pageLabel.textContent = `Página ${current} de ${total}`;
-  bar.style.width = `${(current / total) * 100}%`;
+  pageLabel.textContent = index >= editorialPages
+    ? "Fin de la edición"
+    : `Página ${current} de ${editorialPages}`;
+  bar.style.width = `${(current / editorialPages) * 100}%`;
 
   prevBtn.disabled = index <= 0;
   nextBtn.disabled = index >= total - 1;
@@ -938,14 +970,6 @@ function goToNextPage() {
 
   if (current >= last) return;
 
-  // La contraportada debe poder mostrarse sola en celulares. PageFlip puede
-  // tratar la última hoja como parte del pliego anterior si la revista es impar.
-  if (current === last - 1) {
-    pageFlip.turnToPage(last);
-    updateReader(last);
-    return;
-  }
-
   pageFlip.flipNext();
 }
 
@@ -953,12 +977,6 @@ function goToPreviousPage() {
   const current = pageFlip.getCurrentPageIndex();
 
   if (current <= 0) return;
-
-  if (current === pageFlip.getPageCount() - 1) {
-    pageFlip.turnToPage(current - 1);
-    updateReader(current - 1);
-    return;
-  }
 
   pageFlip.flipPrev();
 }
