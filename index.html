@@ -560,6 +560,16 @@ nav a:hover,.btn:hover {
   border-radius:18px;
   padding:16px;
   box-shadow:0 12px 22px rgba(68,54,36,.08);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.issue-card:hover {
+  transform:translateY(-3px);
+  box-shadow:0 18px 30px rgba(68,54,36,.14);
+}
+
+.issue-link {
+  display:block;
 }
 
 .issue-cover {
@@ -583,9 +593,19 @@ nav a:hover,.btn:hover {
 }
 
 .issue-card p {
-  margin:0;
+  margin:0 0 14px;
   color:var(--muted);
   font-size:13px;
+}
+
+.issue-actions {
+  display:flex;
+  gap:8px;
+}
+
+.issue-actions .btn {
+  flex:1;
+  padding:9px 12px;
 }
 
 footer {
@@ -914,18 +934,24 @@ footer {
   <div class="section-header">
     <div>
       <h2>Archivo de ediciones</h2>
-      <p>La futura hemeroteca digital del colegio.</p>
+      <p>Abre una portada para volver a leer una edición anterior.</p>
     </div>
   </div>
 
   <div class="archive-grid">
     <article class="issue-card">
-      <div class="issue-cover">
-        <img src="assets/edicion-prueba/pagina-01.jpg" alt="Portada de la edición de prueba: Brotes creativos">
-      </div>
-
-      <h3>Edición de prueba</h3>
+      <a class="issue-link" href="#leer" data-open-edition aria-label="Leer la edición de prueba">
+        <div class="issue-cover">
+          <img src="assets/edicion-prueba/pagina-01.jpg" alt="Portada de la edición de prueba: Brotes creativos" loading="lazy">
+        </div>
+        <h3>Edición de prueba</h3>
+      </a>
       <p>11 páginas · Edición demostrativa</p>
+
+      <div class="issue-actions">
+        <a class="btn btn-primary" href="#leer" data-open-edition>Leer edición</a>
+        <a class="btn" href="assets/edicion-prueba/edicion-de-prueba.pdf" target="_blank" rel="noopener noreferrer">Abrir PDF</a>
+      </div>
     </article>
   </div>
 </section>
@@ -1082,6 +1108,13 @@ document.addEventListener("fullscreenchange", () => {
     document.fullscreenElement
       ? "Salir de pantalla completa"
       : "Pantalla completa";
+});
+
+document.querySelectorAll("[data-open-edition]").forEach(link => {
+  link.addEventListener("click", () => {
+    pageFlip.turnToPage(0);
+    updateReader(0);
+  });
 });
 
 updateReader(0);
